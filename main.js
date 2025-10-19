@@ -12,25 +12,17 @@ program
 program.parse(process.argv);
 const options = program.opts();
 
-async function readJsonFile(path)
+async function readJsonFile(path) 
 {
-  // Перевірка існування файлу
-  try {
-    const files = await fs.readdir('.');
-    if (!files.includes(path))
-    {
-      console.error('Cannot find input file:', path);
-      process.exit(1);
-    }
-    
-    // Читання та парсинг
-    const data = await fs.readFile(path, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    // Обробка інших помилок читання/парсингу
-    console.error('Cannot find input file', error.message);
+  const files = await fs.readdir('.');
+  if (!files.includes(path)) 
+  {
+    console.error('Cannot find input file');
     process.exit(1);
   }
+
+  const data = await fs.readFile(path, 'utf8');
+  return JSON.parse(data);
 }
 
 const server = http.createServer(async (req, res) => 

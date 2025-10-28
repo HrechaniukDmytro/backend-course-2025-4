@@ -12,6 +12,19 @@ program
 program.parse(process.argv);
 const options = program.opts();
 
+function filtere(array, callback) 
+{
+  const filteredArray = [];
+  for (let i = 0; i < array.length; i++) 
+  {
+    if (callback(array[i], i, array)) 
+    {
+      filteredArray.push(array[i]);
+    }
+  }
+  return filteredArray;
+}
+
 async function readJsonFile(path) 
 {
   const files = await fs.readdir('.');
@@ -38,7 +51,7 @@ const server = http.createServer(async (req, res) =>
   let filtered = data;
   if (!isNaN(minPetalLength)) 
   {
-    filtered = filtered.filter(item => item["petal.length"] > minPetalLength);
+    filtered = filtere(filtered, item => item["petal.length"] > minPetalLength);
   }
 
   const xmlData = filtered.map(item => 
